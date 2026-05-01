@@ -26,7 +26,6 @@ export async function onRequestPost(context) {
         SMS_CONSENT: sms_consent === true,
         NEWSLETTER_CONSENT: true,
       },
-      listIds: [2],
       updateEnabled: true,
     };
 
@@ -46,16 +45,19 @@ export async function onRequestPost(context) {
       body: JSON.stringify(contact),
     });
 
-    const brevoBody = await brevoRes.json();
+    const brevoBody = await brevoRes.json().catch(() => ({}));
 
     if (!brevoRes.ok) {
       if (brevoBody.code === 'duplicate_parameter') {
         return new Response(JSON.stringify({ success: true }), { status: 200, headers });
       }
-      return new Response(JSON.stringify({ error: brevoBody.message || 'Brevo error.' }), { status: 500, headers });
+      return new Response(JSON.stringify({ 
+        error: brevoBody.message || `Brevo error ${brevoRes.status}`,
+        detail: brevoBody 
+      }), { status: 500, headers });
     }
 
-    return new Response(JSON.stringify({ success: true }), { status: 200, headers });
+    return new Response(JSON.stringify({ success: true, id: brevoBody.id }), { status: 200, headers });
 
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message || 'Server error.' }), { status: 500, headers });
