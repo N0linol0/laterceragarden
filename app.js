@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", function() {
 
     // ── POPUP CONTROLS ──
     function openWaitlist() {
@@ -193,3 +194,4 @@
       btn.disabled = false;
     });
   
+});
