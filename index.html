@@ -864,11 +864,11 @@
           <span>Join the Community</span>
           <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <button class="hero-btn hero-btn-secondary" onclick="openWaitlist()">
+        <button class="hero-btn hero-btn-secondary" id="btn-waitlist">
           <span>Join the Waitlist</span>
           <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
         </button>
-        <button class="hero-btn hero-btn-outline" onclick="openContact()">
+        <button class="hero-btn hero-btn-outline" id="btn-contact">
           <span>Contact Us</span>
           <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
         </button>
@@ -878,9 +878,9 @@
   </section>
 
   <!-- ── WAITLIST POPUP ── -->
-  <div class="popup-overlay" id="waitlist-overlay" onclick="closePopup('waitlist')">
-    <div class="popup" onclick="event.stopPropagation()">
-      <button class="popup-close" onclick="closePopup('waitlist')">✕</button>
+  <div class="popup-overlay" id="waitlist-overlay">
+    <div class="popup" id="waitlist-popup">
+      <button class="popup-close" id="close-waitlist">✕</button>
       <span class="popup-eyebrow">Garden Plots</span>
       <h2 class="popup-title">Join the <em>Waitlist</em></h2>
       <p class="popup-intro">Spots open periodically. Leave your details and we'll be in touch when one becomes available.</p>
@@ -914,9 +914,9 @@
   </div>
 
   <!-- ── CONTACT POPUP ── -->
-  <div class="popup-overlay" id="contact-overlay" onclick="closePopup('contact')">
-    <div class="popup" onclick="event.stopPropagation()">
-      <button class="popup-close" onclick="closePopup('contact')">✕</button>
+  <div class="popup-overlay" id="contact-overlay">
+    <div class="popup" id="contact-popup">
+      <button class="popup-close" id="close-contact">✕</button>
       <span class="popup-eyebrow">Get in touch</span>
       <h2 class="popup-title">Contact <em>Us</em></h2>
       <p class="popup-intro">Have a question about the garden? We'd love to hear from you.</p>
@@ -1101,6 +1101,18 @@
       document.getElementById(type + '-overlay').classList.remove('active');
       document.body.style.overflow = '';
     }
+
+    document.getElementById('btn-waitlist').addEventListener('click', openWaitlist);
+    document.getElementById('btn-contact').addEventListener('click', openContact);
+    document.getElementById('close-waitlist').addEventListener('click', function() { closePopup('waitlist'); });
+    document.getElementById('close-contact').addEventListener('click', function() { closePopup('contact'); });
+
+    document.getElementById('waitlist-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closePopup('waitlist');
+    });
+    document.getElementById('contact-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closePopup('contact');
+    });
 
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
