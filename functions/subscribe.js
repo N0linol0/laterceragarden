@@ -23,16 +23,17 @@ export async function onRequestPost(context) {
       attributes: {
         FIRSTNAME: firstname,
         LASTNAME: lastname || '',
-        SMS_CONSENT: sms_consent === true,
+        SMS_CONSENT: sms_consent ? true : false,
         NEWSLETTER_CONSENT: true,
       },
+      listIds: [2],
       updateEnabled: true,
     };
 
     // Only add SMS if phone provided
     if (phone && phone.trim() !== '') {
-      let cleaned = phone.replace(/\D/g, ''); // strip non-digits
-      if (cleaned.length === 10) cleaned = '1' + cleaned; // add US country code
+      let cleaned = phone.replace(/\D/g, '');
+      if (cleaned.length === 10) cleaned = '1' + cleaned;
       contact.attributes.SMS = '+' + cleaned;
     }
 
@@ -66,6 +67,13 @@ export async function onRequestPost(context) {
 
 export async function onRequestOptions() {
   return new Response(null, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+}  return new Response(null, {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
