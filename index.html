@@ -826,6 +826,7 @@
               throw new Error(json.error);
             }
           } catch(err) {
+            console.error('Form error:', err.message, err);
             msg.style.display = 'block';
             msg.style.background = 'rgba(212,132,122,0.15)';
             msg.style.color = '#d4847a';
