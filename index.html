@@ -856,7 +856,7 @@
           <div class="hero-meta-divider"></div>
           <span class="hero-meta-item">Zone 9b</span>
           <div class="hero-meta-divider"></div>
-          <span class="hero-meta-item">Open to members</span>
+          <span class="hero-meta-item">Open to the public</span>
         </div>
       </div>
       <div class="hero-cta">
@@ -957,8 +957,8 @@
       <h2 class="section-title">A garden, a <em>community</em></h2>
       <div class="about-grid">
         <div class="about-text">
-          <p>La Tercera Garden is a community garden in Petaluma, California, established in 2024. We are a small, close-knit group of gardeners sharing raised beds, tools, knowledge, and the occasional croissant.</p>
-          <p>Our plots grow everything from salad greens and garlic to strawberries, artichokes, and flowers. The garden is a public space managed in partnership with the City of Petaluma, open to anyone who wants to put their hands in the soil.</p>
+          <p>La Tercera Garden is a community garden in Petaluma, California, established in 2024. A collaborative project of the City of Petaluma and Petaluma People Services, it brings local residents together to grow their own produce in a healthy, shared environment.</p>
+          <p>Our plots grow everything from salad greens and garlic to strawberries, artichokes, and flowers. A City of Petaluma community garden, open to anyone who wants to put their hands in the soil.</p>
           <p>We meet informally throughout the season and gather for community breakfasts, workdays, and summer events. New members are welcome — spots open periodically from our waiting list.</p>
         </div>
         <div class="about-stats">
@@ -1019,7 +1019,7 @@
         </div>
         <div class="detail-item">
           <span class="detail-label">Access</span>
-          <span class="detail-value">Open to members & visitors</span>
+          <span class="detail-value">Open to the public · Dawn to dusk</span>
         </div>
       </div>
     </div>
@@ -1069,85 +1069,6 @@
 
         <button type="submit" class="submit-btn" id="submit-btn">Stay in the loop</button>
       </form>
-
-      <script>
-        // ── PHONE AUTO-FORMAT ──
-        document.getElementById('phone').addEventListener('input', function(e) {
-          let val = e.target.value.replace(/\D/g, '');
-          if (val.length > 10) val = val.slice(-10); // keep last 10 digits
-          let formatted = '';
-          if (val.length >= 1) formatted = '(' + val.slice(0, 3);
-          if (val.length >= 4) formatted += ') ' + val.slice(3, 6);
-          if (val.length >= 7) formatted += '-' + val.slice(6, 10);
-          e.target.value = formatted;
-        });
-        document.getElementById('signup-form').addEventListener('submit', async function(e) {
-          e.preventDefault();
-          const btn = document.getElementById('submit-btn');
-          const msg = document.getElementById('form-message');
-
-          const firstname = document.getElementById('firstname').value.trim();
-          const lastname = document.getElementById('lastname').value.trim();
-          const email = document.getElementById('email').value.trim();
-          const phone = document.getElementById('phone').value.trim();
-          const sms_consent = document.getElementById('sms_consent').checked;
-          const email_consent = document.querySelector('input[name="email_consent"]').checked;
-
-          // ── CLIENT-SIDE VALIDATION ──
-          const showError = (text) => {
-            msg.style.display = 'block';
-            msg.style.background = 'rgba(212,132,122,0.15)';
-            msg.style.color = '#d4847a';
-            msg.style.border = '1px solid rgba(212,132,122,0.3)';
-            msg.textContent = text;
-          };
-
-          if (!firstname) return showError('Please enter your first name.');
-
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!email) return showError('Please enter your email address.');
-          if (!emailRegex.test(email)) return showError('Please enter a valid email address.');
-
-          if (!email_consent) return showError('Please check the newsletter consent box to subscribe.');
-
-          if (phone && !sms_consent) return showError('You entered a phone number — please check the SMS reminders box to confirm you\'d like to receive texts.');
-          if (sms_consent && !phone) return showError('Please enter your phone number to receive SMS reminders.');
-
-          if (phone) {
-            const digitsOnly = phone.replace(/\D/g, '');
-            if (digitsOnly.length !== 10) return showError('Please enter a complete 10-digit US phone number, e.g. (707) 555-1234.');
-          }
-
-          // ── SUBMIT ──
-          btn.textContent = 'Sending...';
-          btn.disabled = true;
-          msg.style.display = 'none';
-
-          try {
-            const res = await fetch('/subscribe', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ firstname, lastname, email, phone, sms_consent }),
-            });
-            const json = await res.json();
-            if (json.success) {
-              msg.style.display = 'block';
-              msg.style.background = 'rgba(168,197,160,0.15)';
-              msg.style.color = '#a8c5a0';
-              msg.style.border = '1px solid rgba(168,197,160,0.3)';
-              msg.textContent = 'Welcome to La Tercera Garden. Roots down.';
-              document.getElementById('signup-form').reset();
-            } else {
-              showError(json.error || 'Something went wrong. Please try again later.');
-            }
-          } catch(err) {
-            showError('Something went wrong. Please try again later.');
-          }
-
-          btn.textContent = 'Stay in the loop';
-          btn.disabled = false;
-        });
-      </script>
     </div>
   </section>
 
@@ -1298,6 +1219,54 @@
         el.style.border = '1px solid #f5c0bb';
       }
     }
+
+    // ── SIGNUP FORM ──
+    document.getElementById('signup-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const msg = document.getElementById('form-message');
+      const firstname = document.getElementById('firstname').value.trim();
+      const lastname = document.getElementById('lastname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const sms_consent = document.getElementById('sms_consent').checked;
+      const email_consent = document.querySelector('input[name="email_consent"]').checked;
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!firstname) return showMsg(msg, 'Please enter your first name.', 'error');
+      if (!email || !emailRe.test(email)) return showMsg(msg, 'Please enter a valid email address.', 'error');
+      if (!email_consent) return showMsg(msg, 'Please check the newsletter consent box to subscribe.', 'error');
+      if (phone && !sms_consent) return showMsg(msg, 'You entered a phone number — please check the SMS reminders box.', 'error');
+      if (sms_consent && !phone) return showMsg(msg, 'Please enter your phone number to receive SMS reminders.', 'error');
+      if (phone && phone.replace(/\D/g, '').length !== 10) return showMsg(msg, 'Please enter a complete 10-digit US phone number, e.g. (707) 555-1234.', 'error');
+
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+      msg.style.display = 'none';
+
+      try {
+        const res = await fetch('/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ firstname, lastname, email, phone, sms_consent }),
+        });
+        const json = await res.json();
+        if (json.success) {
+          showMsg(msg, 'Welcome to La Tercera Garden. Roots down.', 'success');
+          msg.style.background = 'rgba(168,197,160,0.15)';
+          msg.style.color = '#a8c5a0';
+          msg.style.border = '1px solid rgba(168,197,160,0.3)';
+          document.getElementById('signup-form').reset();
+        } else {
+          showMsg(msg, json.error || 'Something went wrong. Please try again later.', 'error');
+        }
+      } catch(err) {
+        showMsg(msg, 'Something went wrong. Please try again later.', 'error');
+      }
+
+      btn.textContent = 'Stay in the loop';
+      btn.disabled = false;
+    });
   </script>
 
 </body>
