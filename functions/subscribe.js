@@ -2,7 +2,7 @@ export async function onRequestPost(context) {
   const { request, env } = context;
 
   const headers = {
-    'Access-Control-Allow-Origin': 'https://laterceragarden.com',
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
   };
 
@@ -12,6 +12,10 @@ export async function onRequestPost(context) {
 
     if (!email || !firstname) {
       return new Response(JSON.stringify({ error: 'Name and email are required.' }), { status: 400, headers });
+    }
+
+    if (!env.BREVO_API_KEY) {
+      return new Response(JSON.stringify({ error: 'API key not configured.' }), { status: 500, headers });
     }
 
     const contact = {
@@ -36,25 +40,26 @@ export async function onRequestPost(context) {
       body: JSON.stringify(contact),
     });
 
+    const brevoBody = await brevoRes.json();
+
     if (!brevoRes.ok) {
-      const err = await brevoRes.json();
-      if (err.code === 'duplicate_parameter') {
+      if (brevoBody.code === 'duplicate_parameter') {
         return new Response(JSON.stringify({ success: true }), { status: 200, headers });
       }
-      return new Response(JSON.stringify({ error: 'Could not save contact.' }), { status: 500, headers });
+      return new Response(JSON.stringify({ error: brevoBody.message || 'Brevo error.' }), { status: 500, headers });
     }
 
     return new Response(JSON.stringify({ success: true }), { status: 200, headers });
 
   } catch (e) {
-    return new Response(JSON.stringify({ error: 'Server error.' }), { status: 500, headers });
+    return new Response(JSON.stringify({ error: e.message || 'Server error.' }), { status: 500, headers });
   }
 }
 
 export async function onRequestOptions() {
   return new Response(null, {
     headers: {
-      'Access-Control-Allow-Origin': 'https://laterceragarden.com',
+      'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
     },
