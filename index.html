@@ -122,8 +122,8 @@
       top: 80px;
       left: 40px;
       right: 40px;
-      height: 4px;
-      background: repeating-linear-gradient(90deg, var(--green-light) 0px, var(--green-light) 8px, transparent 8px, transparent 14px);
+      height: 1px;
+      background: rgba(168, 197, 160, 0.25);
     }
 
     .hero-content {
@@ -137,10 +137,11 @@
       font-size: 10px;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: var(--green-light);
+      color: var(--cream);
       margin-bottom: 20px;
       opacity: 0;
       animation: fadeUp 0.8s ease forwards 0.2s;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.6);
     }
 
     .hero-title {
@@ -184,13 +185,14 @@
       font-size: 10px;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: #5a8a6e;
+      color: var(--cream);
+      text-shadow: 0 1px 6px rgba(0,0,0,0.6);
     }
 
     .hero-meta-divider {
       width: 1px;
       height: 16px;
-      background: var(--green-mid);
+      background: rgba(168, 197, 160, 0.4);
     }
 
     .hero-scroll {
@@ -442,7 +444,7 @@
     .signup-intro {
       font-size: 15px;
       line-height: 1.8;
-      color: #7fa88f;
+      color: var(--green-light);
       margin-top: 20px;
       margin-bottom: 40px;
       font-style: italic;
@@ -483,7 +485,7 @@
       transition: border-color 0.2s;
     }
 
-    .form-input::placeholder { color: #6a9a7a; }
+    .form-input::placeholder { color: #a8c5a0; }
     .form-input:focus { border-color: var(--green-light); background: rgba(255,255,255,0.16); }
 
     .form-checkbox-group {
@@ -514,7 +516,7 @@
 
     .form-checkbox-text {
       font-size: 13px;
-      color: #7fa88f;
+      color: var(--green-light);
       line-height: 1.5;
     }
 
@@ -528,10 +530,10 @@
       font-family: 'DM Mono', monospace;
       font-size: 9px;
       letter-spacing: 0.05em;
-      color: #3d6a52;
+      color: var(--green-light);
       line-height: 1.6;
       padding: 12px 16px;
-      border: 1px solid #243d31;
+      border: 1px solid #2d5040;
       border-radius: 3px;
     }
 
@@ -769,7 +771,7 @@
         </div>
         <div class="form-group full">
           <label class="form-label" for="phone">Phone number — optional, for SMS reminders only</label>
-          <input class="form-input" type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000" />
+          <input class="form-input" type="tel" id="phone" name="phone" placeholder="(707) 555-1234" />
         </div>
 
         <div class="form-checkbox-group">
@@ -793,26 +795,63 @@
       </form>
 
       <script>
+        // ── PHONE AUTO-FORMAT ──
+        document.getElementById('phone').addEventListener('input', function(e) {
+          let val = e.target.value.replace(/\D/g, '');
+          if (val.length > 10) val = val.slice(-10); // keep last 10 digits
+          let formatted = '';
+          if (val.length >= 1) formatted = '(' + val.slice(0, 3);
+          if (val.length >= 4) formatted += ') ' + val.slice(3, 6);
+          if (val.length >= 7) formatted += '-' + val.slice(6, 10);
+          e.target.value = formatted;
+        });
         document.getElementById('signup-form').addEventListener('submit', async function(e) {
           e.preventDefault();
           const btn = document.getElementById('submit-btn');
           const msg = document.getElementById('form-message');
+
+          const firstname = document.getElementById('firstname').value.trim();
+          const lastname = document.getElementById('lastname').value.trim();
+          const email = document.getElementById('email').value.trim();
+          const phone = document.getElementById('phone').value.trim();
+          const sms_consent = document.getElementById('sms_consent').checked;
+          const email_consent = document.querySelector('input[name="email_consent"]').checked;
+
+          // ── CLIENT-SIDE VALIDATION ──
+          const showError = (text) => {
+            msg.style.display = 'block';
+            msg.style.background = 'rgba(212,132,122,0.15)';
+            msg.style.color = '#d4847a';
+            msg.style.border = '1px solid rgba(212,132,122,0.3)';
+            msg.textContent = text;
+          };
+
+          if (!firstname) return showError('Please enter your first name.');
+
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!email) return showError('Please enter your email address.');
+          if (!emailRegex.test(email)) return showError('Please enter a valid email address.');
+
+          if (!email_consent) return showError('Please check the newsletter consent box to subscribe.');
+
+          if (phone && !sms_consent) return showError('You entered a phone number — please check the SMS reminders box to confirm you\'d like to receive texts.');
+          if (sms_consent && !phone) return showError('Please enter your phone number to receive SMS reminders.');
+
+          if (phone) {
+            const digitsOnly = phone.replace(/\D/g, '');
+            if (digitsOnly.length !== 10) return showError('Please enter a complete 10-digit US phone number, e.g. (707) 555-1234.');
+          }
+
+          // ── SUBMIT ──
           btn.textContent = 'Sending...';
           btn.disabled = true;
-
-          const data = {
-            firstname: document.getElementById('firstname').value,
-            lastname: document.getElementById('lastname').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            sms_consent: document.getElementById('sms_consent').checked,
-          };
+          msg.style.display = 'none';
 
           try {
             const res = await fetch('/subscribe', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(data),
+              body: JSON.stringify({ firstname, lastname, email, phone, sms_consent }),
             });
             const json = await res.json();
             if (json.success) {
@@ -823,15 +862,10 @@
               msg.textContent = 'Welcome to La Tercera Garden. Roots down.';
               document.getElementById('signup-form').reset();
             } else {
-              throw new Error(json.error);
+              showError(json.error || 'Something went wrong. Please try again later.');
             }
           } catch(err) {
-            console.error('Form error:', err.message, err);
-            msg.style.display = 'block';
-            msg.style.background = 'rgba(212,132,122,0.15)';
-            msg.style.color = '#d4847a';
-            msg.style.border = '1px solid rgba(212,132,122,0.3)';
-            msg.textContent = 'Something went wrong. Please try again later.';
+            showError('Something went wrong. Please try again later.');
           }
 
           btn.textContent = 'Stay in the loop';
