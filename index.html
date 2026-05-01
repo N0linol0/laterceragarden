@@ -86,10 +86,10 @@
 
     .nav-links a {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--green-light);
+      color: var(--cream);
       text-decoration: none;
       transition: color 0.2s;
     }
@@ -107,6 +107,194 @@
       position: relative;
       overflow: hidden;
     }
+
+    /* ── HERO LAYOUT ── */
+    .hero-layout {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 40px;
+      width: 100%;
+    }
+
+    .hero-content { flex: 1; }
+
+    .hero-cta {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex-shrink: 0;
+      width: 220px;
+    }
+
+    .hero-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px 20px;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      width: 100%;
+    }
+
+    .hero-btn svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .hero-btn-primary { background-color: var(--gold); color: var(--ink); }
+    .hero-btn-primary:hover { background-color: #d4c484; }
+    .hero-btn-secondary { background-color: var(--green-light); color: var(--green-deep); }
+    .hero-btn-secondary:hover { background-color: #bcd4b4; }
+    .hero-btn-outline { background-color: transparent; color: var(--cream); border: 1px solid rgba(255,255,255,0.4); }
+    .hero-btn-outline:hover { background-color: rgba(255,255,255,0.1); border-color: var(--cream); }
+
+    /* ── POPUPS ── */
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .popup-overlay.active { display: flex; }
+
+    .popup {
+      background: var(--cream);
+      border-radius: 8px;
+      padding: 40px;
+      width: 100%;
+      max-width: 560px;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: var(--ink-light);
+      cursor: pointer;
+      width: 32px; height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+
+    .popup-close:hover { background: var(--parchment); }
+
+    .popup-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .popup-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--green-deep);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .popup-title em { font-style: italic; color: var(--gold); }
+
+    .popup-intro {
+      font-size: 14px;
+      color: var(--ink-light);
+      line-height: 1.7;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #e4ddd0;
+    }
+
+    .popup-form { display: flex; flex-direction: column; gap: 14px; }
+
+    .popup-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .popup-form-group { display: flex; flex-direction: column; gap: 5px; }
+
+    .popup-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      font-weight: 500;
+    }
+
+    .popup-input {
+      padding: 10px 14px;
+      background: var(--parchment);
+      border: 1px solid #d4cdc0;
+      border-radius: 3px;
+      color: var(--ink);
+      font-family: 'Lora', serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    .popup-input::placeholder { color: #b0a898; }
+    .popup-input:focus { border-color: var(--green-deep); background: white; }
+    .popup-textarea { resize: vertical; min-height: 80px; }
+
+    .popup-message {
+      padding: 10px 14px;
+      border-radius: 3px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+
+    .popup-submit {
+      padding: 14px 24px;
+      background-color: var(--green-deep);
+      color: var(--cream);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-weight: 500;
+    }
+
+    .popup-submit:hover { background-color: var(--green-mid); }
 
     .hero-bg {
       position: absolute;
@@ -134,8 +322,8 @@
 
     .hero-eyebrow {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.3em;
+      font-size: 12px;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
       color: var(--cream);
       margin-bottom: 20px;
@@ -154,6 +342,7 @@
       margin-bottom: 16px;
       opacity: 0;
       animation: fadeUp 0.8s ease forwards 0.4s;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
     }
 
     .hero-title em {
@@ -165,11 +354,13 @@
     .hero-subtitle {
       font-family: 'Lora', serif;
       font-style: italic;
-      font-size: 18px;
-      color: var(--gold);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--cream);
       margin-bottom: 40px;
       opacity: 0;
       animation: fadeUp 0.8s ease forwards 0.6s;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.5);
     }
 
     .hero-meta {
@@ -182,11 +373,12 @@
 
     .hero-meta-item {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
+      font-size: 12px;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--cream);
       text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+      font-weight: 500;
     }
 
     .hero-meta-divider {
@@ -219,9 +411,10 @@
     .quote-band p {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 15px;
+      font-size: 18px;
+      font-weight: 400;
       color: var(--ink);
-      letter-spacing: 0.04em;
+      letter-spacing: 0.02em;
     }
 
     /* ── SECTIONS ── */
@@ -236,12 +429,13 @@
 
     .section-label {
       font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.3em;
+      font-size: 11px;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: var(--green-light);
+      color: var(--ink-light);
       display: block;
       margin-bottom: 8px;
+      font-weight: 500;
     }
 
     .section-title {
@@ -305,11 +499,12 @@
 
     .stat-label {
       font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.2em;
+      font-size: 11px;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--ink-faint);
-      margin-top: 4px;
+      color: var(--ink-light);
+      margin-top: 6px;
+      font-weight: 500;
     }
 
     /* ── PHOTO STRIP ── */
@@ -401,12 +596,13 @@
 
     .detail-label {
       font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.2em;
+      font-size: 11px;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--ink-faint);
+      color: var(--ink-light);
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+      font-weight: 500;
     }
 
     .detail-value {
@@ -439,16 +635,14 @@
       border-bottom-color: var(--green-mid);
     }
 
-    .signup .section-label { color: var(--gold); }
+    .signup .section-label { color: var(--gold); font-size: 11px; }
 
     .signup-intro {
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.8;
-      color: var(--green-light);
+      color: var(--cream);
       margin-top: 20px;
       margin-bottom: 40px;
-      font-style: italic;
-      max-width: 560px;
     }
 
     .signup-form {
@@ -467,10 +661,11 @@
 
     .form-label {
       font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.2em;
+      font-size: 11px;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: #5a8a6e;
+      color: var(--green-light);
+      font-weight: 500;
     }
 
     .form-input {
@@ -480,7 +675,7 @@
       border-radius: 3px;
       color: var(--cream);
       font-family: 'Lora', serif;
-      font-size: 14px;
+      font-size: 15px;
       outline: none;
       transition: border-color 0.2s;
     }
@@ -490,7 +685,7 @@
 
     .form-checkbox-group {
       grid-column: 1 / -1;
-      padding: 16px 20px;
+      padding: 20px 24px;
       background: rgba(255,255,255,0.04);
       border: 1px solid var(--green-mid);
       border-radius: 3px;
@@ -499,25 +694,25 @@
     .form-checkbox-label {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
+      gap: 14px;
       cursor: pointer;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     .form-checkbox-label:last-child { margin-bottom: 0; }
 
     .form-checkbox-label input[type="checkbox"] {
       flex-shrink: 0;
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       margin-top: 2px;
       accent-color: var(--green-light);
     }
 
     .form-checkbox-text {
-      font-size: 13px;
+      font-size: 15px;
       color: var(--green-light);
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .form-checkbox-text strong {
@@ -527,23 +722,23 @@
 
     .sms-consent {
       grid-column: 1 / -1;
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.05em;
-      color: var(--green-light);
-      line-height: 1.6;
-      padding: 12px 16px;
+      font-family: 'Lora', serif;
+      font-size: 12px;
+      color: var(--cream);
+      line-height: 1.7;
+      padding: 14px 18px;
       border: 1px solid #2d5040;
       border-radius: 3px;
+      font-style: italic;
     }
 
     .submit-btn {
       grid-column: 1 / -1;
-      padding: 16px 32px;
+      padding: 18px 32px;
       background-color: var(--gold);
       color: var(--ink);
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
+      font-size: 13px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       border: none;
@@ -613,26 +808,23 @@
     @media (max-width: 768px) {
       nav { padding: 16px 20px; }
       .nav-links { display: none; }
-
       .hero { padding: 100px 24px 60px; }
       .hero-scroll { display: none; }
-
+      .hero-layout { flex-direction: column; align-items: flex-start; gap: 32px; }
+      .hero-cta { width: 100%; }
       .quote-band { padding: 16px 24px; }
       .quote-band p { font-size: 13px; }
-
       section { padding: 60px 24px; }
-
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
-
       .photo-strip { height: 260px; }
-
       .find-us-details { grid-template-columns: 1fr; }
-
       .signup-form { grid-template-columns: 1fr; }
       .form-group.full { grid-column: 1; }
       .form-checkbox-group { grid-column: 1; }
       .sms-consent { grid-column: 1; }
       .submit-btn { grid-column: 1; }
+      .popup { padding: 28px 24px; }
+      .popup-form-row { grid-template-columns: 1fr; }
 
       footer { padding: 32px 24px; }
     }
@@ -654,20 +846,104 @@
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-border"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow">Est. 2024 · Petaluma, California</div>
-      <h1 class="hero-title">La Tercera <em>Garden</em></h1>
-      <p class="hero-subtitle">A community growing together, one season at a time.</p>
-      <div class="hero-meta">
-        <span class="hero-meta-item">Sonoma County</span>
-        <div class="hero-meta-divider"></div>
-        <span class="hero-meta-item">Zone 9b</span>
-        <div class="hero-meta-divider"></div>
-        <span class="hero-meta-item">Open to members</span>
+    <div class="hero-layout">
+      <div class="hero-content">
+        <div class="hero-eyebrow">Est. 2024 · Petaluma, California</div>
+        <h1 class="hero-title">La Tercera <em>Garden</em></h1>
+        <p class="hero-subtitle">A community growing together, one season at a time.</p>
+        <div class="hero-meta">
+          <span class="hero-meta-item">Sonoma County</span>
+          <div class="hero-meta-divider"></div>
+          <span class="hero-meta-item">Zone 9b</span>
+          <div class="hero-meta-divider"></div>
+          <span class="hero-meta-item">Open to members</span>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="#signup" class="hero-btn hero-btn-primary">
+          <span>Join the Community</span>
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <button class="hero-btn hero-btn-secondary" onclick="openWaitlist()">
+          <span>Join the Waitlist</span>
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <button class="hero-btn hero-btn-outline" onclick="openContact()">
+          <span>Contact Us</span>
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </button>
       </div>
     </div>
     <div class="hero-scroll">Scroll</div>
   </section>
+
+  <!-- ── WAITLIST POPUP ── -->
+  <div class="popup-overlay" id="waitlist-overlay" onclick="closePopup('waitlist')">
+    <div class="popup" onclick="event.stopPropagation()">
+      <button class="popup-close" onclick="closePopup('waitlist')">✕</button>
+      <span class="popup-eyebrow">Garden Plots</span>
+      <h2 class="popup-title">Join the <em>Waitlist</em></h2>
+      <p class="popup-intro">Spots open periodically. Leave your details and we'll be in touch when one becomes available.</p>
+      <form class="popup-form" id="waitlist-form">
+        <div class="popup-form-row">
+          <div class="popup-form-group">
+            <label class="popup-label">First name *</label>
+            <input class="popup-input" type="text" id="wl-firstname" placeholder="Your first name" required />
+          </div>
+          <div class="popup-form-group">
+            <label class="popup-label">Last name</label>
+            <input class="popup-input" type="text" id="wl-lastname" placeholder="Your last name" />
+          </div>
+        </div>
+        <div class="popup-form-group">
+          <label class="popup-label">Email address *</label>
+          <input class="popup-input" type="email" id="wl-email" placeholder="your@email.com" required />
+        </div>
+        <div class="popup-form-group">
+          <label class="popup-label">Phone number (optional)</label>
+          <input class="popup-input" type="tel" id="wl-phone" placeholder="(707) 555-1234" />
+        </div>
+        <div class="popup-form-group">
+          <label class="popup-label">Message (optional)</label>
+          <textarea class="popup-input popup-textarea" id="wl-message" placeholder="Tell us a bit about yourself or your gardening experience..." rows="3"></textarea>
+        </div>
+        <div id="waitlist-msg" class="popup-message" style="display:none;"></div>
+        <button type="submit" class="popup-submit" id="wl-btn">Add me to the waitlist</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── CONTACT POPUP ── -->
+  <div class="popup-overlay" id="contact-overlay" onclick="closePopup('contact')">
+    <div class="popup" onclick="event.stopPropagation()">
+      <button class="popup-close" onclick="closePopup('contact')">✕</button>
+      <span class="popup-eyebrow">Get in touch</span>
+      <h2 class="popup-title">Contact <em>Us</em></h2>
+      <p class="popup-intro">Have a question about the garden? We'd love to hear from you.</p>
+      <form class="popup-form" id="contact-form">
+        <div class="popup-form-row">
+          <div class="popup-form-group">
+            <label class="popup-label">Your name *</label>
+            <input class="popup-input" type="text" id="ct-name" placeholder="Your full name" required />
+          </div>
+          <div class="popup-form-group">
+            <label class="popup-label">Your email *</label>
+            <input class="popup-input" type="email" id="ct-email" placeholder="your@email.com" required />
+          </div>
+        </div>
+        <div class="popup-form-group">
+          <label class="popup-label">Subject *</label>
+          <input class="popup-input" type="text" id="ct-subject" placeholder="What's on your mind?" required />
+        </div>
+        <div class="popup-form-group">
+          <label class="popup-label">Message *</label>
+          <textarea class="popup-input popup-textarea" id="ct-message" placeholder="Your message..." rows="4" required></textarea>
+        </div>
+        <div id="contact-msg" class="popup-message" style="display:none;"></div>
+        <button type="submit" class="popup-submit" id="ct-btn">Send message</button>
+      </form>
+    </div>
+  </div>
 
   <!-- ── QUOTE BAND ── -->
   <div class="quote-band">
@@ -786,7 +1062,7 @@
         </div>
 
         <div class="sms-consent">
-          By checking SMS reminders above, you consent to receive text messages from La Tercera Garden. Message frequency may vary. Standard message and data rates may apply. Reply STOP to opt out. Reply HELP for assistance. Your mobile information will not be sold or shared with third parties.
+          By checking SMS reminders above, you consent to receive occasional text messages from La Tercera Garden. Consent is not required to participate in the garden. Message frequency may vary. Standard message and data rates may apply. Reply STOP to opt out. Reply HELP for assistance. Your mobile information will not be sold or shared with third parties. View our <a href="/privacy.html" style="color:var(--green-light);">Privacy Policy</a> and <a href="/terms.html" style="color:var(--green-light);">Terms of Use</a>.
         </div>
 
         <div id="form-message" style="display:none; grid-column:1/-1; padding:12px 16px; border-radius:3px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.1em;"></div>
@@ -881,9 +1157,148 @@
     <div class="footer-tagline">Roots down.</div>
     <div class="footer-divider"></div>
     <div class="footer-legal">
-      Petaluma, CA 94954 · Est. 2024
+      Petaluma, CA 94954 · Est. 2024<br/>
+      <a href="/privacy.html" style="color:#3d6a52; text-decoration:none; letter-spacing:0.1em; font-family:'DM Mono',monospace; font-size:9px; text-transform:uppercase;">Privacy Policy</a>
+      &nbsp;·&nbsp;
+      <a href="/terms.html" style="color:#3d6a52; text-decoration:none; letter-spacing:0.1em; font-family:'DM Mono',monospace; font-size:9px; text-transform:uppercase;">Terms of Use</a>
     </div>
   </footer>
+
+  <script>
+    // ── POPUP CONTROLS ──
+    function openWaitlist() {
+      document.getElementById('waitlist-overlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function openContact() {
+      document.getElementById('contact-overlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePopup(type) {
+      document.getElementById(type + '-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closePopup('waitlist');
+        closePopup('contact');
+      }
+    });
+
+    // ── PHONE AUTO-FORMAT ──
+    function formatPhone(input) {
+      let val = input.value.replace(/\D/g, '');
+      if (val.length > 10) val = val.slice(-10);
+      let formatted = '';
+      if (val.length >= 1) formatted = '(' + val.slice(0, 3);
+      if (val.length >= 4) formatted += ') ' + val.slice(3, 6);
+      if (val.length >= 7) formatted += '-' + val.slice(6, 10);
+      input.value = formatted;
+    }
+
+    document.getElementById('phone').addEventListener('input', function() { formatPhone(this); });
+    document.getElementById('wl-phone').addEventListener('input', function() { formatPhone(this); });
+
+    // ── WAITLIST FORM ──
+    document.getElementById('waitlist-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('wl-btn');
+      const msg = document.getElementById('waitlist-msg');
+      const firstname = document.getElementById('wl-firstname').value.trim();
+      const email = document.getElementById('wl-email').value.trim();
+
+      if (!firstname) return showMsg(msg, 'Please enter your first name.', 'error');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) return showMsg(msg, 'Please enter a valid email address.', 'error');
+
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+
+      try {
+        const phone = document.getElementById('wl-phone').value.trim();
+        const res = await fetch('/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstname,
+            lastname: document.getElementById('wl-lastname').value.trim(),
+            email,
+            phone,
+            message: document.getElementById('wl-message').value.trim(),
+          }),
+        });
+        const json = await res.json();
+        if (json.success) {
+          showMsg(msg, "You're on the list. We'll be in touch when a spot opens up.", 'success');
+          document.getElementById('waitlist-form').reset();
+        } else {
+          showMsg(msg, json.error || 'Something went wrong. Please try again.', 'error');
+        }
+      } catch(err) {
+        showMsg(msg, 'Something went wrong. Please try again.', 'error');
+      }
+
+      btn.textContent = 'Add me to the waitlist';
+      btn.disabled = false;
+    });
+
+    // ── CONTACT FORM ──
+    document.getElementById('contact-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('ct-btn');
+      const msg = document.getElementById('contact-msg');
+      const name = document.getElementById('ct-name').value.trim();
+      const email = document.getElementById('ct-email').value.trim();
+      const subject = document.getElementById('ct-subject').value.trim();
+      const message = document.getElementById('ct-message').value.trim();
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!name) return showMsg(msg, 'Please enter your name.', 'error');
+      if (!emailRegex.test(email)) return showMsg(msg, 'Please enter a valid email address.', 'error');
+      if (!subject) return showMsg(msg, 'Please enter a subject.', 'error');
+      if (!message) return showMsg(msg, 'Please enter a message.', 'error');
+
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, subject, message }),
+        });
+        const json = await res.json();
+        if (json.success) {
+          showMsg(msg, "Message sent. We'll get back to you soon.", 'success');
+          document.getElementById('contact-form').reset();
+        } else {
+          showMsg(msg, json.error || 'Something went wrong. Please try again.', 'error');
+        }
+      } catch(err) {
+        showMsg(msg, 'Something went wrong. Please try again.', 'error');
+      }
+
+      btn.textContent = 'Send message';
+      btn.disabled = false;
+    });
+
+    function showMsg(el, text, type) {
+      el.style.display = 'block';
+      el.textContent = text;
+      if (type === 'success') {
+        el.style.background = '#eef5eb';
+        el.style.color = '#1e3a2f';
+        el.style.border = '1px solid #a8c5a0';
+      } else {
+        el.style.background = '#fce8e5';
+        el.style.color = '#9e2a22';
+        el.style.border = '1px solid #f5c0bb';
+      }
+    }
+  </script>
 
 </body>
 </html>
